@@ -1,0 +1,252 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  /* Updated color palette for liquid glass and skeumorphic design */
+  --background: #ffffff;
+  --foreground: #374151;
+  --card: rgba(255, 255, 255, 0.8);
+  --card-foreground: #374151;
+  --popover: rgba(255, 255, 255, 0.9);
+  --popover-foreground: #374151;
+  --primary: #d97706;
+  --primary-foreground: #ffffff;
+  --secondary: #6366f1;
+  --secondary-foreground: #ffffff;
+  --muted: #fefce8;
+  --muted-foreground: #374151;
+  --accent: #6366f1;
+  --accent-foreground: #ffffff;
+  --destructive: #be123c;
+  --destructive-foreground: #ffffff;
+  --border: rgba(217, 119, 6, 0.2);
+  --input: #f8fafc;
+  --ring: rgba(217, 119, 6, 0.5);
+  --chart-1: #d97706;
+  --chart-2: #6366f1;
+  --chart-3: #be123c;
+  --chart-4: #374151;
+  --chart-5: #fefce8;
+  --radius: 1rem;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #374151;
+  --sidebar-primary: #d97706;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #6366f1;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(217, 119, 6, 0.2);
+  --sidebar-ring: rgba(217, 119, 6, 0.5);
+}
+
+.dark {
+  /* Dark mode variants for glass morphism */
+  --background: #1f2937;
+  --foreground: #f9fafb;
+  --card: rgba(31, 41, 55, 0.8);
+  --card-foreground: #f9fafb;
+  --popover: rgba(31, 41, 55, 0.9);
+  --popover-foreground: #f9fafb;
+  --primary: #f59e0b;
+  --primary-foreground: #1f2937;
+  --secondary: #818cf8;
+  --secondary-foreground: #1f2937;
+  --muted: rgba(55, 65, 81, 0.5);
+  --muted-foreground: #d1d5db;
+  --accent: #818cf8;
+  --accent-foreground: #1f2937;
+  --destructive: #f87171;
+  --destructive-foreground: #1f2937;
+  --border: rgba(249, 158, 11, 0.2);
+  --input: rgba(55, 65, 81, 0.5);
+  --ring: rgba(249, 158, 11, 0.5);
+  --chart-1: #f59e0b;
+  --chart-2: #818cf8;
+  --chart-3: #f87171;
+  --chart-4: #d1d5db;
+  --chart-5: rgba(55, 65, 81, 0.5);
+  --sidebar: rgba(31, 41, 55, 0.8);
+  --sidebar-foreground: #f9fafb;
+  --sidebar-primary: #f59e0b;
+  --sidebar-primary-foreground: #1f2937;
+  --sidebar-accent: #818cf8;
+  --sidebar-accent-foreground: #1f2937;
+  --sidebar-border: rgba(249, 158, 11, 0.2);
+  --sidebar-ring: rgba(249, 158, 11, 0.5);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Added premium typography system with Playfair Display and Source Sans Pro */
+  --font-sans: var(--font-source-sans);
+  --font-serif: var(--font-playfair);
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    /* Enhanced gradient background for premium depth */
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%, #f8fafc 100%);
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+    min-height: 100vh;
+  }
+
+  /* Enhanced typography hierarchy with premium fonts */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif font-bold;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+
+  /* Enhanced glass morphism utility classes with better depth */
+  .glass {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    position: relative;
+  }
+
+  .glass::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  }
+
+  .glass-dark {
+    background: rgba(31, 41, 55, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+  }
+
+  .glass-dark::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  }
+
+  /* Added premium animations and micro-interactions */
+  @keyframes gradient-shift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(217, 119, 6, 0.6);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Premium scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #d97706, #6366f1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #b45309, #4f46e5);
+  }
+}
