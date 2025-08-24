@@ -45,7 +45,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const deleteExercise = (exerciseId: string) => {
     setExercises((prev) => prev.filter((e) => e.id !== exerciseId))
     setLogs((prev) => prev.filter((l) => l.exerciseId !== exerciseId))
-    setPlans((prev) => prev.map((p) => ({ ...p, exerciseIds: p.exerciseIds.filter((id) => id !== exerciseId) })))
+    setPlans((prev) => prev.map((p) => ({ ...p, exercises: p.exercises.filter((ex) => ex.exerciseId !== exerciseId) })))
   }
 
   const getExerciseById = (id: string) => exercises.find((e) => e.id === id)
