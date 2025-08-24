@@ -42,3 +42,4 @@ Notes:
 - iOS (Safari) ignores `manifest.json` for home screen icons and splash images; you must add properly-sized `apple-touch-startup-image` links and `apple-touch-icon` images. The `pwa-asset-generator` tool can produce these automatically.
 - I added SVG placeholders as quick stand-ins. Replace them with production PNGs for best results.
 # newGymBruhh git init git add README.md git commit -m first commit git branch -M main git remote add origin https://github.com/tillmannvey-spec/newGymBruhh.git git push -u origin main
+# newGymBruhh
