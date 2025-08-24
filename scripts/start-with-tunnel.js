@@ -60,6 +60,7 @@ async function createTunnel() {
           qrcode.generate(url, { small: true });
         }
         resolve({ url, close: () => proc.kill() });
+      }
       if (code !== 0) reject(new Error('localtunnel CLI exited with ' + code))
     })
   })
