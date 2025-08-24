@@ -5,7 +5,7 @@ const path = require('path')
 const src = path.join(__dirname, '..', 'public', 'placeholder.png')
 const outDir = path.join(__dirname, '..', 'public', 'icons')
 const manifestPath = path.join(__dirname, '..', 'public', 'manifest.json')
-const headPath = path.join(__dirname, '..', 'app', 'head.tsx')
+const layoutPath = path.join(__dirname, '..', 'app', 'layout.tsx')
 
 if (!fs.existsSync(src)) {
   console.error('Source placeholder image not found at', src)
@@ -29,23 +29,38 @@ proc.on('exit', (code) => {
   const splashFiles = files.filter(f => f.startsWith('apple-splash') || f.includes('splash'))
   const iconFiles = files.filter(f => f.startsWith('icon') || f.includes('icon'))
 
-  // Build link tags
-  const splashLinks = splashFiles.map(f => `      <link rel="apple-touch-startup-image" href="/icons/${f}" />`).join('\n')
+  // Find the best icon for apple-touch-icon in metadata
   const iconLink = iconFiles.find(f => f.includes('512')) || iconFiles[0] || 'placeholder-logo.png'
-  const iconTag = `      <link rel="apple-touch-icon" href="/icons/${iconLink}" />`
+  const iconPath = `/icons/${iconLink}`
 
-  // Read existing head.tsx and replace the apple-touch-startup-image/link block
-  let head = fs.readFileSync(headPath, 'utf8')
+  // Update layout.tsx metadata
+  let layout = fs.readFileSync(layoutPath, 'utf8')
+  
+  // Update the apple icon path in metadata
+  layout = layout.replace(
+    /apple: ["']\/[^"']+["']/,
+    `apple: "${iconPath}"`
+  )
+  
+  // Update the regular icon path in metadata
+  layout = layout.replace(
+    /icon: ["']\/[^"']+["']/,
+    `icon: "${iconPath}"`
+  )
 
-  // Replace existing apple-touch-startup-image lines (simple approach)
-  head = head.replace(/<link rel="apple-touch-startup-image"[\s\S]*?\/>\n?/g, '')
-  head = head.replace(/<link rel="apple-touch-icon"[\s\S]*?\/>\n?/g, '')
+  // Update the apple-touch-startup-image in the head section if splash files exist
+  if (splashFiles.length > 0) {
+    const primarySplash = splashFiles.find(f => f.includes('2732x2732')) || splashFiles[0]
+    const splashPath = `/icons/${primarySplash}`
+    layout = layout.replace(
+      /<link rel="apple-touch-startup-image" href="[^"]+"/,
+      `<link rel="apple-touch-startup-image" href="${splashPath}"`
+    )
+  }
 
-  // Insert new tags before the final <link rel="icon"
-  head = head.replace(/<link rel="icon"/, `${iconTag}\n${splashLinks}\n      <link rel=\"icon\"`)
-
-  fs.writeFileSync(headPath, head, 'utf8')
-  console.log('Updated', headPath)
+  fs.writeFileSync(layoutPath, layout, 'utf8')
+  console.log('Updated', layoutPath)
   console.log('Generated splash files:', splashFiles)
+  console.log('Generated icon files:', iconFiles)
   process.exit(0)
 })

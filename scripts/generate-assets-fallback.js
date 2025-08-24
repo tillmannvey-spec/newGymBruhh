@@ -40,17 +40,30 @@ async function generate() {
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf8')
   console.log('Updated manifest.json')
 
-  // update head.tsx:
-  const headPath = path.join(__dirname, '..', 'app', 'head.tsx')
-  let head = fs.readFileSync(headPath, 'utf8')
-  // remove old apple-touch-startup-image and apple-touch-icon entries
-  head = head.replace(/<link rel="apple-touch-startup-image"[\s\S]*?\/>\n?/g, '')
-  head = head.replace(/<link rel="apple-touch-icon"[\s\S]*?\/>\n?/g, '')
-  const iconTag = `      <link rel="apple-touch-icon" href="/icons/icon-512.png" />\n`
-  const splashTag = `      <link rel="apple-touch-startup-image" href="/icons/apple-splash-2732x2732.png" />\n`
-  head = head.replace(/<link rel="icon"/, `${iconTag}${splashTag}      <link rel=\"icon\"`)
-  fs.writeFileSync(headPath, head, 'utf8')
-  console.log('Updated head.tsx')
+  // update layout.tsx metadata:
+  const layoutPath = path.join(__dirname, '..', 'app', 'layout.tsx')
+  let layout = fs.readFileSync(layoutPath, 'utf8')
+  
+  // Update the apple icon path in metadata
+  layout = layout.replace(
+    /apple: ["']\/[^"']+["']/,
+    `apple: "/icons/icon-512.png"`
+  )
+  
+  // Update the regular icon path in metadata
+  layout = layout.replace(
+    /icon: ["']\/[^"']+["']/,
+    `icon: "/icons/icon-512.png"`
+  )
+
+  // Update the apple-touch-startup-image in the head section
+  layout = layout.replace(
+    /<link rel="apple-touch-startup-image" href="[^"]+"/,
+    `<link rel="apple-touch-startup-image" href="/icons/apple-splash-2732x2732.png"`
+  )
+
+  fs.writeFileSync(layoutPath, layout, 'utf8')
+  console.log('Updated layout.tsx')
 }
 
 generate().catch(err => { console.error(err); process.exit(1) })
